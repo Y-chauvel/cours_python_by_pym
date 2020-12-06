@@ -115,5 +115,48 @@ def main():
     print("Did it worked?", "OK :)" if SUCCESS else "Nope :(")
 
 
+    KEY = 3
+    MAJ_KEY = 32
+    LIM_MAJ = 96
+    LIM_MIN_DOWN = 65
+    LIM_MIN_UP = 90
+    ALPHABET_LOOP = 26
+
+    SIGN = "-"
+
+    PLAIN_TEXT = "ave!CAesar_morituri'te SaluTant"
+    cipher_text = ""
+    maj_text = ""
+
+    #UPPERCASE CONVERSION
+    for i in PLAIN_TEXT:
+        if ord(i) > LIM_MAJ: 
+            ascii_value_maj = ord(i) - MAJ_KEY
+            maj_text += chr(ascii_value_maj)
+        else :
+            maj_text += i
+    print(maj_text, "\n")
+
+    #DECIPHERING
+    for i in maj_text:
+        if ord(i) in range(65,91):
+            ascii_value_plain = ord(i)
+
+            if SIGN == "-":
+                ascii_value_cipher = ord(i) + KEY
+                if ascii_value_cipher > LIM_MIN_UP:
+                    ascii_value_cipher -= ALPHABET_LOOP
+            else :
+                ascii_value_cipher = ord(i) - KEY
+                if ascii_value_cipher < LIM_MIN_DOWN:
+                    ascii_value_cipher += ALPHABET_LOOP
+
+            cipher_text += chr(ascii_value_cipher)        
+        else:
+            cipher_text += i
+
+    print(cipher_text)
+    
+
 if __name__ == "__main__":
     main()
