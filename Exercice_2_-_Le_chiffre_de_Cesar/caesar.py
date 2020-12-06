@@ -80,83 +80,78 @@ Je t'invite tout de même à faire attention... dans le chiffre de César l'alph
 >>> chr(90+3)
 ']'
 """
-
+import string
 
 def do_cipher(plain_text: str, key: int) -> str:
-    # Met ton code ici
-    return "Il faudrait retourner un vrai truc ;)"
+    LIM_MIN_DOWN = ord('A')
+    LIM_MIN_UP = ord('Z')
+    ALPHABET_LOOP = len(string.ascii_uppercase)
+    
+    cipher_text = ""
 
+    plain_text = plain_text.upper()
+    
+    for i in plain_text:
+        if ord(i) in range(ord('A'),ord('Z')+1):
+            ascii_value_plain = ord(i)
+            ascii_value_cipher = ord(i) - key
+            if key < 0:
+                if ascii_value_cipher > LIM_MIN_UP:
+                    ascii_value_cipher -= ALPHABET_LOOP
+            else :
+                if ascii_value_cipher < LIM_MIN_DOWN:
+                    ascii_value_cipher += ALPHABET_LOOP
+            cipher_text += chr(ascii_value_cipher)        
+        else:
+            cipher_text += i
+    return cipher_text
 
 def do_decipher(cipher_text: str, key: int) -> str:
-    # Met ton code ici
+    LIM_MIN_DOWN = ord('A')
+    LIM_MIN_UP = ord('Z')
+    ALPHABET_LOOP = len(string.ascii_uppercase)
+    
+    plain_text = ""
+    
+    for i in cipher_text:
+        if ord(i) in range(ord('A'),ord('Z')+1):
+            ascii_value_plain = ord(i)
+            ascii_value_cipher = ord(i) + key
+            if key > 0:
+                if ascii_value_cipher > LIM_MIN_UP:
+                    ascii_value_cipher -= ALPHABET_LOOP
+            else :
+                if ascii_value_cipher < LIM_MIN_DOWN:
+                    ascii_value_cipher += ALPHABET_LOOP
+            plain_text += chr(ascii_value_cipher)        
+        else:
+            plain_text += i
+    return plain_text
     return "Il faudrait retourner un vrai truc ;)"
+
 
 
 def main():
-    PLAIN_TEXT = "Ave Caesar morituri te salutant"
-    KEY = 3
+    PLAIN_TEXT = "Ave Caesar! morituri_ te salutant"
+    KEY = -10
 
     print("************ Caesar's cypher ************\n\n")
     print("Plain text   :", PLAIN_TEXT)
     print("key          :", KEY)
-    print()
 
-    print("Let's cipher now!")
+    print("\nLet's cipher now!")
     CIPHER_TEXT = do_cipher(PLAIN_TEXT, KEY)
     print("Cipher text  :", CIPHER_TEXT)
     print()
 
     print("Let's decipher (will it work?!)")
-    DECIPHER_TEXT = do_decipher(PLAIN_TEXT, KEY)
+    DECIPHER_TEXT = do_decipher(CIPHER_TEXT, KEY)
     print("Decipher text:", DECIPHER_TEXT)
     print()
-
+    
+     
     SUCCESS = PLAIN_TEXT.upper() == DECIPHER_TEXT
     print("Did it worked?", "OK :)" if SUCCESS else "Nope :(")
-
-
-    KEY = 3
-    MAJ_KEY = 32
-    LIM_MAJ = 96
-    LIM_MIN_DOWN = 65
-    LIM_MIN_UP = 90
-    ALPHABET_LOOP = 26
-
-    SIGN = "-"
-
-    PLAIN_TEXT = "ave!CAesar_morituri'te SaluTant"
-    cipher_text = ""
-    maj_text = ""
-
-    #UPPERCASE CONVERSION
-    for i in PLAIN_TEXT:
-        if ord(i) > LIM_MAJ: 
-            ascii_value_maj = ord(i) - MAJ_KEY
-            maj_text += chr(ascii_value_maj)
-        else :
-            maj_text += i
-    print(maj_text, "\n")
-
-    #DECIPHERING
-    for i in maj_text:
-        if ord(i) in range(65,91):
-            ascii_value_plain = ord(i)
-
-            if SIGN == "-":
-                ascii_value_cipher = ord(i) + KEY
-                if ascii_value_cipher > LIM_MIN_UP:
-                    ascii_value_cipher -= ALPHABET_LOOP
-            else :
-                ascii_value_cipher = ord(i) - KEY
-                if ascii_value_cipher < LIM_MIN_DOWN:
-                    ascii_value_cipher += ALPHABET_LOOP
-
-            cipher_text += chr(ascii_value_cipher)        
-        else:
-            cipher_text += i
-
-    print(cipher_text)
     
-
 if __name__ == "__main__":
     main()
